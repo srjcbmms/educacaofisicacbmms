@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head>
+<script>
+/* Ponte GitHub Pages -> Google Apps Script (substitui google.script.run) */
+window.__GH = true;
+window.__API = 'https://script.google.com/macros/s/AKfycbxR3C3R10yuN8rJtMnwZki1zuQ1910df1xPI5mkpvVG7WH5YSyPETMf8Z__-3b9FXFQKA/exec';
+(function () {
+  function chamada(ok, erro, nome, args) {
+    var corpo = nome === 'api' ? { token: args[0], nome: args[1], args: args[2] || [] } : { nome: nome, args: args };
+    fetch(window.__API, { method: 'POST', body: JSON.stringify(corpo), redirect: 'follow' })
+      .then(function (r) { if (!r.ok) throw new Error('Servidor respondeu ' + r.status); return r.json(); })
+      .then(function (d) { if (d && d.ok) { ok && ok(d.r); } else { var e = new Error((d && d.erro) || 'Erro desconhecido'); erro ? erro(e) : console.error(e); } })
+      .catch(function (e) { var x = new Error('Sem conexão com o servidor (' + (e && e.message || e) + ')'); erro ? erro(x) : console.error(x); });
+  }
+  function runner(ok, erro) {
+    return new Proxy({}, { get: function (_, p) {
+      if (p === 'withSuccessHandler') return function (f) { return runner(f, erro); };
+      if (p === 'withFailureHandler') return function (f) { return runner(ok, f); };
+      if (p === 'withUserObject') return function () { return runner(ok, erro); };
+      return function () { chamada(ok, erro, p, Array.prototype.slice.call(arguments)); };
+    } });
+  }
+  window.google = { script: { run: runner(null, null), url: { getLocation: function (cb) {
+    var par = {}; new URLSearchParams(location.search).forEach(function (v, k) { par[k] = v; }); cb({ parameter: par, hash: location.hash.slice(1) });
+  } }, host: { close: function () {}, setHeight: function () {} } } };
+})();
+</script>
+<base target="_top"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solicitação de cautela – Educação Física CBMMS</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f6f7f9;color:#0f172a}
+header{background:#b91c1c;color:#fff;padding:16px;text-align:center}header h1{margin:0;font-size:18px}header p{margin:4px 0 0;font-size:13px;opacity:.9}
+main{max-width:640px;margin:0 auto;padding:12px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:12px}
+h2{font-size:15px;margin:0 0 6px;color:#b91c1c}
+label{display:block;font-size:13px;color:#475569;margin:10px 0 4px}
+input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:10px;font-size:16px;font-family:inherit;background:#fff}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.item{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #e5e7eb;border-radius:8px;margin-top:6px}
+.item input[type=checkbox]{width:22px;height:22px;flex:none}.item .n{flex:1}.item .d{font-size:12px;color:#16a34a}.item .d.z{color:#b91c1c}
+.item input[type=number]{width:70px;padding:6px}
+.ciente{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:#334155}.ciente input{width:22px;height:22px;flex:none}
+button{width:100%;background:#b91c1c;color:#fff;border:0;border-radius:10px;padding:14px;font-size:16px;font-weight:700}
+button:disabled{opacity:.5}
+.ok{text-align:center;padding:24px}.ok b{font-size:22px;color:#16a34a}
+.erro{color:#b91c1c;font-size:14px;margin-top:8px}
+small{color:#64748b}
+</style></head><body>
+<header><h1>Solicitação de cautela de material / viatura</h1><p>Seção de Educação Física – Diretoria de Saúde – CBMMS</p></header>
+<main id="app">
+<div class="card"><h2>1. Seus dados</h2>
+ <div class="g2"><div><label>Posto/graduação *</label><input id="po" list="dlp" placeholder="ex.: 2º Sgt BM"></div><div><label>Matrícula</label><input id="mat" inputmode="numeric"></div></div>
+ <datalist id="dlp"><option value="Sd BM"><option value="Cb BM"><option value="3º Sgt BM"><option value="2º Sgt BM"><option value="1º Sgt BM"><option value="Subten BM"><option value="Al Sgt BM"><option value="Cad BM"><option value="Asp Of BM"><option value="2º Ten BM"><option value="1º Ten BM"><option value="Cap BM"><option value="Maj BM"><option value="TC BM"><option value="Cel BM"><option value="Civil / outro órgão"></datalist>
+ <label>Nome completo *</label><input id="nome" autocomplete="name">
+ <label>Unidade *</label><input id="un" list="dlu" placeholder="ex.: 3º GBM, ABM, QCG">
+ <datalist id="dlu"><option value="QCG"><option value="ABM"><option value="COCB"><option value="GOA"><option value="DS"><option value="DPA"><option value="Ajudância"><option value="1º GBM"><option value="2º GBM"><option value="3º GBM"><option value="4º GBM"><option value="5º GBM"><option value="6º GBM"><option value="7º GBM"><option value="8º GBM"><option value="9º GBM"><option value="10º GBM"></datalist>
+ <div class="g2"><div><label>WhatsApp *</label><input id="tel" inputmode="tel" placeholder="67 9...."></div><div><label>E-mail *</label><input id="em" type="email" placeholder="recebe o aviso de prazo"></div></div>
+</div>
+<div class="card"><h2>2. O que você precisa</h2><small>Marque os itens. A disponibilidade é a de agora; a seção confirma na entrega.</small>
+ <div id="itens"><p><small>Carregando itens…</small></p></div>
+ <div id="cnh" style="display:none"><div class="g2"><div><label>CNH do condutor (nº) *</label><input id="cnhn" inputmode="numeric"></div><div><label>Validade da CNH *</label><input id="cnhv" type="date"></div></div>
+  <label>Destino / itinerário *</label><input id="dest" placeholder="ex.: QCG → Pista Ayrton Senna"></div>
+ <label>Finalidade / OS *</label><input id="fin" placeholder="ex.: TAF do 3º GBM – OS 045/DS">
+ <div class="g2"><div><label>Retirada desejada *</label><input id="ret" type="datetime-local"></div><div><label>Devolução prevista *</label><input id="dev" type="datetime-local"></div></div>
+ <label>Observações</label><textarea id="obs" rows="2"></textarea>
+</div>
+<div class="card">
+ <label class="ciente"><input type="checkbox" id="ciente"><span>Declaro que conservarei o material/viatura, utilizarei apenas para a finalidade informada e devolverei no prazo, respondendo por extravio ou dano decorrente de uso indevido. Na retirada, assinarei o termo de cautela e acompanharei a vistoria.</span></label>
+ <div style="margin-top:12px"><button id="env" onclick="enviar()">Enviar solicitação</button></div><div id="msg" class="erro"></div>
+</div>
+</main>
+<script>
+var ITENS=[];
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function loc(d){d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)}
+(function(){var a=new Date();a.setDate(a.getDate()+1);a.setHours(8,0,0,0);$('ret').value=loc(new Date(a));a.setHours(18);$('dev').value=loc(a);})();
+google.script.run.withSuccessHandler(function(l){ITENS=l||[];$('itens').innerHTML=ITENS.length?ITENS.map(function(it,i){return '<label class="item"><input type="checkbox" id="ck'+i+'" onchange="mudou()"><span class="n">'+esc(it.nome)+(it.tipo==='Viatura'?' <small>(viatura)</small>':'')+'<br><span class="d'+(it.disp?'':' z')+'">'+(it.disp?it.disp+' disponível(is) agora':'em uso agora – pode solicitar para outra data')+'</span></span>'+(it.tipo==='Viatura'||it.total<=1?'':'<input type="number" id="q'+i+'" min="1" max="'+it.total+'" value="1" title="quantidade">')+'</label>'}).join(''):'<p>Nenhum item cadastrado no momento.</p>'})
+ .withFailureHandler(function(e){$('itens').innerHTML='<p class="erro">Não foi possível carregar os itens: '+esc(e.message)+'</p>'}).cautelaPublicaItens();
+function mudou(){var v=ITENS.some(function(it,i){return it.tipo==='Viatura'&&$('ck'+i).checked});$('cnh').style.display=v?'':'none'}
+function enviar(){
+ var sel=ITENS.map(function(it,i){return $('ck'+i)&&$('ck'+i).checked?{id:it.id,nome:it.nome,tipo:it.tipo,qtd:$('q'+i)?Math.max(1,+$('q'+i).value||1):1}:null}).filter(Boolean);
+ var d={posto:$('po').value.trim(),nome:$('nome').value.trim(),matricula:$('mat').value.trim(),unidade:$('un').value.trim(),telefone:$('tel').value.trim(),email:$('em').value.trim(),
+  itens:sel,finalidade:$('fin').value.trim(),destino:$('dest').value.trim(),cnh:$('cnhn').value.trim(),cnhValidade:$('cnhv').value,retirada:$('ret').value,devolucao:$('dev').value,obs:$('obs').value.trim(),ciente:$('ciente').checked};
+ var falta=[];if(!d.posto)falta.push('posto');if(!d.nome)falta.push('nome');if(!d.unidade)falta.push('unidade');if(!d.telefone)falta.push('WhatsApp');if(!/@/.test(d.email))falta.push('e-mail');
+ if(!sel.length)falta.push('itens');if(!d.finalidade)falta.push('finalidade');if(!d.retirada||!d.devolucao)falta.push('datas');
+ var vtr=sel.some(function(s){return s.tipo==='Viatura'});if(vtr&&(!d.cnh||!d.cnhValidade||!d.destino))falta.push('CNH, validade e destino');
+ if(falta.length){$('msg').textContent='Preencha: '+falta.join(', ')+'.';return}
+ if(d.devolucao<=d.retirada){$('msg').textContent='A devolução deve ser depois da retirada.';return}
+ if(vtr&&d.cnhValidade<new Date().toISOString().slice(0,10)){$('msg').textContent='A CNH informada está vencida.';return}
+ if(!d.ciente){$('msg').textContent='Marque a declaração de responsabilidade.';return}
+ $('env').disabled=true;$('msg').textContent='Enviando…';
+ google.script.run.withSuccessHandler(function(r){$('app').innerHTML='<div class="card ok"><b>Solicitação enviada!</b><p>Protocolo <b style="font-size:18px;color:#0f172a">'+esc(r.protocolo)+'</b></p><p>A Seção de Educação Física vai confirmar pelo WhatsApp ou e-mail. Na retirada, leve documento de identificação'+(vtr?' e a CNH':'')+'.</p></div>'})
+  .withFailureHandler(function(e){$('env').disabled=false;$('msg').textContent='Erro: '+e.message}).cautelaPublicaEnviar(d);
+}
+</script></body></html>
